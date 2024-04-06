@@ -1,11 +1,11 @@
-﻿--                                           ********************************************************************************************************************************
---                                           *                                                                                                                              *
---                                           *                                                            SQL Resume                                                        *
---                                           *                                                                                                                              *
---                                           *                                                        By Mohab Mohammed                                                     *
---                                           ********************************************************************************************************************************
+﻿--                         ********************************************************************************************************************************
+--                         *                                                                                                                              *
+--                         *                                                            SQL Resume                                                        *
+--                         *                                                                                                                              *
+--                         *                                                        By Mohab Mohammed                                                     *
+--                         ********************************************************************************************************************************
 
--- *********************************************************************************************************************************************************************************************************************
+-- *****************************************************************************************************************************************************************************
 
 --------------------------- Comments  -----------------------------
 -- Single Line Comment
@@ -25,11 +25,11 @@ int			-- 4 Byte (important)
 bigint		-- 8 Byte (important)
 
 ------------------- Fractions Data Types
-smallmoney	4Byte.0000            -- 4 Numbers After Point
-money		8Byte.0000            -- 4 Numbers After Point
-real		  .0000000         -- 7 Numbers After Point
-float		  .000000000000000 -- 15 Numbers After Point
-dec			-- Datatype and Make Valiadtion at The Same Time => Recommended
+smallmoney	4Byte.0000                  		 -- 4 Numbers After Point
+money		8Byte.0000               		     -- 4 Numbers After Point
+real		  .0000000                  		 -- 7 Numbers After Point
+float		  .000000000000000      		     -- 15 Numbers After Point
+dec								     	       	 -- Datatype and Make Valiadtion at The Same Time => Recommended
 dec(5, 2) 13524.22	18.1	12.2212 XXX 2.1234   --(important)
 
 ------------------- Char Data Types
@@ -174,3 +174,204 @@ delete from Employee
 where EmpID = 2
 
 ------------------------------------------
+use Route
+
+-- Truncate 
+truncate table Student
+delete from Student
+=========================================================================
+-- DQL => Data Query Language
+
+select *
+from Student
+
+select St_Fname +' '+ St_Lname FullName
+from Student
+
+select St_Fname +' '+ St_Lname as FullName
+from Student
+
+select St_Fname +' '+ St_Lname  [Full Name]
+from Student
+
+select [Full Name] = St_Fname +' '+ St_Lname  
+from Student
+
+
+select * 
+from Student
+where St_Age > 23
+
+select * 
+from Student
+where St_Age between 21 and 25
+
+select *
+from Student
+where St_Address in ('Alex', 'Mansoura', 'Cairo')
+
+
+select *
+from Student
+where St_Address not in ('Alex', 'Mansoura', 'Cairo')
+
+Select * 
+from Student
+where St_super is not Null
+
+--------------------------
+
+-- like With Some Patterns
+/*
+_ => one Char
+% => Zero or More Chars 
+*/ 
+select *
+from Student
+where St_Fname like '_A%'        -- Na Fady Kamel Hassan Nada Nadia 
+/*
+
+'a%h'                            --ah aghjklh
+'%a_'                            --ak hjkak
+'[ahm]%' amr hassan mohamed      -- start "A" or "H" or "M"
+'[^ahm]%'                        -- Not start "A" or "H" or "M"
+'[a-h]%'                         -- start "A,B,C......H"
+'[^a-h]%'                        -- Not start "A,B,C......H"
+'[346]%'                         -- start "3" or "4" or "6"
+'%[%]'                           --ghjkl%
+'%[_]%'                          --Ahmed_Ali _
+'[_]%[_]'                        --_Ahmed_
+
+*/
+select *
+from Employee
+where FName like '[_]A%'
+
+-- Distinct                        --علشان يجبلي الداتا بتاعتي من غير تكرار
+select distinct FName
+from Employee
+
+-- Order By                        -- علشان ارتب الداتا
+select St_Id, St_Fname, St_Age
+from Student
+order by St_Fname, St_Age          -- From A to Z
+
+select St_Id, St_Fname, St_Age
+from Student
+order by St_Fname, St_Age desc     -- From Z to A
+
+select *
+from Student
+order by 1                         -- رقم 1 تعود علي اول Coulme
+===========================================================
+--------------------------- Joins -------------------------
+-- Cross join (Cartisian Product)
+select st_fname,dept_name
+from student s,department d
+
+select st_fname,dept_name
+from student s cross join department d
+
+-- Inner Join (Equi Join)
+-- Equi Join Syntax
+select st_fname,dept_name
+from student s,department d
+where d.dept_id=s.dept_id
+
+select st_fname,d.*
+from student s,department d
+where d.dept_id=s.dept_id
+
+-- Inner Join Syntax
+select st_fname,dept_name
+from student s inner join department d
+	on d.dept_id=s.dept_id
+
+
+-- Outer Join
+-- Left Outer Join
+select st_fname,dept_name
+from student s left outer join department d
+	on d.dept_id=s.dept_id
+
+-- Right Outer Join
+select st_fname,dept_name
+from student s right outer join department d
+	on d.dept_id=s.dept_id
+
+-- Full Outer Join
+select st_fname,dept_name
+from student s full outer join department d
+	on d.dept_id=s.dept_id
+
+-- Self Join
+select s.st_fname,s1.*
+from student s,student s1
+where s1.st_id=s.st_super
+
+select s.st_fname,s1.*
+from student s inner join student s1
+on s1.st_id=s.st_super
+
+-- Multi Table Join
+-- Equi Join Syntax
+select st_fname,crs_name,grade
+from Student s,Stud_Course sc,course c
+where s.St_Id=sc.St_Id and c.Crs_Id=sc.Crs_Id
+
+-- Inner Join Syntax
+select st_fname,crs_name,grade
+from Student s inner join Stud_Course sc
+     on s.St_Id=sc.St_Id 
+	 inner join course c
+	 on c.Crs_Id=sc.Crs_Id
+----------------------------------
+-- Join + DML
+-- Update 
+
+-- Updates Grades Of Student Who 're Living in Cairo
+update SC
+	set grade += 10
+from Student S inner join Stud_Course SC
+on  S.St_Id = SC.St_Id and St_Address = 'cairo'
+
+-- Self Study
+-- Delete
+-- Insert
+----------------------------------------------------------
+----------------------------------------------------------
+=======================================================
+--------------------- Built-in Functions --------------
+=======================================================
+
+------------------- Aggregate Functions ---------------
+--  Return Value That Not Existed In Database
+--	Count, Sum, Avg, Max, Min  
+
+select count(*)
+from student
+
+--The Count of Students That have Ages (Not Null)
+select count(st_age) 
+from student
+
+select count(*) , count(st_id), count(st_lname), count(st_age)
+from Student
+
+select sum(salary)
+from instructor
+
+
+select avg(st_age)
+from Student
+select sum(st_age)/COUNT(*)
+from Student
+select sum(st_age)/COUNT(st_age)
+from Student
+
+
+
+select Max(Salary) as MaxSalary, Min(Salary) as MinSalary
+from Instructor
+
+
