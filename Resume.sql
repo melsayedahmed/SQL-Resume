@@ -70,8 +70,8 @@ print @age
 -------------------------------------------------------------------
 -- DDL => Data Definition Language
 -- 1. Create
-create database RouteCycle37G01
-use RouteCycle37G01
+create database Functo
+use Functo
 
 create table Employee
 (
@@ -174,7 +174,7 @@ delete from Employee
 where EmpID = 2
 
 ------------------------------------------
-use Route
+use Functo
 
 -- Truncate 
 truncate table Student
@@ -182,42 +182,42 @@ delete from Student
 =========================================================================
 -- DQL => Data Query Language
 
-select *
-from Student
+	select *
+	from Student
 
-select St_Fname +' '+ St_Lname FullName
-from Student
+	select St_Fname +' '+ St_Lname FullName
+	from Student
 
-select St_Fname +' '+ St_Lname as FullName
-from Student
+	select St_Fname +' '+ St_Lname as FullName
+	from Student
 
-select St_Fname +' '+ St_Lname  [Full Name]
-from Student
+	select St_Fname +' '+ St_Lname  [Full Name]
+	from Student
 
-select [Full Name] = St_Fname +' '+ St_Lname  
-from Student
-
-
-select * 
-from Student
-where St_Age > 23
-
-select * 
-from Student
-where St_Age between 21 and 25
-
-select *
-from Student
-where St_Address in ('Alex', 'Mansoura', 'Cairo')
+	select [Full Name] = St_Fname +' '+ St_Lname  
+	from Student
 
 
-select *
-from Student
-where St_Address not in ('Alex', 'Mansoura', 'Cairo')
+	select * 
+	from Student
+	where St_Age > 23
 
-Select * 
-from Student
-where St_super is not Null
+	select * 
+	from Student
+	where St_Age between 21 and 25
+
+	select *
+	from Student
+	where St_Address in ('Alex', 'Mansoura', 'Cairo')
+
+
+	select *
+	from Student
+	where St_Address not in ('Alex', 'Mansoura', 'Cairo')
+
+	Select * 
+	from Student
+	where St_super is not Null
 
 --------------------------
 
@@ -243,75 +243,70 @@ where St_Fname like '_A%'        -- Na Fady Kamel Hassan Nada Nadia
 '[_]%[_]'                        --_Ahmed_
 
 */
-select *
-from Employee
-where FName like '[_]A%'
+	select *
+	from Employee
+	where FName like '[_]A%'
 
 -- Distinct                        --علشان يجبلي الداتا بتاعتي من غير تكرار
-select distinct FName
-from Employee
+	select distinct FName
+	from Employee
 
 -- Order By                        -- علشان ارتب الداتا
-select St_Id, St_Fname, St_Age
-from Student
-order by St_Fname, St_Age          -- From A to Z
+	select St_Id, St_Fname, St_Age
+	from Student
+	order by St_Fname, St_Age          -- From A to Z
 
-select St_Id, St_Fname, St_Age
-from Student
-order by St_Fname, St_Age desc     -- From Z to A
+	select St_Id, St_Fname, St_Age
+	from Student
+	order by St_Fname, St_Age desc     -- From Z to A
 
-select *
-from Student
-order by 1                         -- رقم 1 تعود علي اول Coulme
+	select *
+	from Student
+	order by 1                         -- رقم 1 تعود علي اول Coulme
 ===========================================================
 --------------------------- Joins -------------------------
--- Cross join (Cartisian Product)
-select st_fname,dept_name
-from student s,department d
+1-- Cross join (Cartisian Product)                        --may be using in Product Business
+	select st_fname,dept_name
+	from student s,department d
 
-select st_fname,dept_name
-from student s cross join department d
+	select st_fname,dept_name
+	from student s cross join department d
 
--- Inner Join (Equi Join)
--- Equi Join Syntax
-select st_fname,dept_name
-from student s,department d
-where d.dept_id=s.dept_id
+2-- Inner Join (Equi Join)
+	-- Equi Join Syntax                                           -- Inner Join Syntax
+	select st_fname,dept_name                                     select st_fname,dept_name
+	from student s,department d                                   from student s inner join department d
+	where d.dept_id=s.dept_id                                  	  on d.dept_id=s.dept_id
 
-select st_fname,d.*
-from student s,department d
-where d.dept_id=s.dept_id
-
--- Inner Join Syntax
-select st_fname,dept_name
-from student s inner join department d
-	on d.dept_id=s.dept_id
+	select st_fname,d.*
+	from student s,department d
+	where d.dept_id=s.dept_id
 
 
--- Outer Join
--- Left Outer Join
-select st_fname,dept_name
-from student s left outer join department d
-	on d.dept_id=s.dept_id
+3-- Outer Join
+	3.1-- Right Outer Join
+		select st_fname,dept_name
+		from student s right outer join department d
+			on d.dept_id=s.dept_id
 
--- Right Outer Join
-select st_fname,dept_name
-from student s right outer join department d
-	on d.dept_id=s.dept_id
+	3.2-- Left Outer Join
+		select st_fname,dept_name
+		from student s left outer join department d
+			on d.dept_id=s.dept_id
 
--- Full Outer Join
-select st_fname,dept_name
-from student s full outer join department d
-	on d.dept_id=s.dept_id
+	3.3-- Full Outer Join
+		select st_fname,dept_name
+		from student s full outer join department d
+			on d.dept_id=s.dept_id
 
--- Self Join
-select s.st_fname,s1.*
-from student s,student s1
-where s1.st_id=s.st_super
+4-- Self Join
+	select s.st_fname,s1.*
+	from student s,student s1
+	where s1.st_id=s.st_super
 
-select s.st_fname,s1.*
-from student s inner join student s1
-on s1.st_id=s.st_super
+	select s.st_fname,s1.*
+	from student s inner join student s1
+		on s1.st_id=s.st_super
 
 -- Multi Table Join
 -- Equi Join Syntax
@@ -373,5 +368,3 @@ from Student
 
 select Max(Salary) as MaxSalary, Min(Salary) as MinSalary
 from Instructor
-
-
